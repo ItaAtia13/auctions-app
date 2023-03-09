@@ -4,13 +4,21 @@ const ItemDetail = ({ item, userBids }) => {
   const [offerAmount, setOfferAmount] = useState("");
 
   const handleOfferChange = (e) => {
-    setOfferAmount(parseInt(e.target.value));
+    // Check if the input value is not a number (NaN)
+    if (isNaN(e.target.value) || e.target.value == "") {
+      setOfferAmount("");
+    } else setOfferAmount(parseInt(e.target.value));
+    //test
+    console.log(` input val: ${parseInt(e.target.value)}`);
   };
 
   const userBid = userBids.find((bid) => bid.itemID === item.id);
 
+  //test
+  console.log(`userbid.amount: ${userBid.amount}`);
+
   // Disable button if an offer is not higher than current bid
-  const isOfferDisabled = offerAmount <= userBid;
+  const isOfferDisabled = offerAmount <= userBid.amount;
 
   return (
     <div>
@@ -21,18 +29,13 @@ const ItemDetail = ({ item, userBids }) => {
       <time>Auction Open Date: {item.auctionOpenDate.toDateString()}</time>
       <p>Number of Offers: {item.numOffers}</p>
       <p>Offered by: {item.username}</p>
-      {userBid && (
-        <div>
-          <h2>Your Bid</h2>
-          <p>Amount: {userBid.amount}</p>
-          <p>Date: {userBid.date}</p>
-          <input type="submit" value={offerAmount} />
-          <button onClick={handleOfferChange} disabled={isOfferDisabled}>
-            {" "}
-            Make an Offer{" "}
-          </button>
-        </div>
-      )}
+
+      <h2>Your Bid</h2>
+      <p>Amount: {userBid.amount}</p>
+      <p>Date: {userBid.date}</p>
+      <input value={offerAmount} onChange={handleOfferChange} />
+      <br />
+      <button disabled={isOfferDisabled}>Make an Offer</button>
     </div>
   );
 };
