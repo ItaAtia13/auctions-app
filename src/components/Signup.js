@@ -1,12 +1,28 @@
 import React, { useState } from "react";
+import axios from "axios";
+import GetCookie from "../utils/GetCookie";
+
 const Signup = () => {
-  const [name, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Handle signup submission
+    if (username && password) {
+      const response = await axios.post("http://localhost:8989/Sign-Up", {
+        params: {
+          username: username,
+          password: password,
+        },
+      });
+      if (response.status == 200) {
+        // GetCookie("userInfo");
+      } else {
+        // error message
+        console.log("username or pass invalid");
+      }
+    }
   };
 
   const usernameHandler = (e) => {
@@ -27,7 +43,7 @@ const Signup = () => {
       <form onSubmit={handleSubmit}>
         <label>
           Enter your username:
-          <input type="text" value={name} onChange={usernameHandler} />
+          <input type="text" value={username} onChange={usernameHandler} />
         </label>
         <label>
           Enter your Password:

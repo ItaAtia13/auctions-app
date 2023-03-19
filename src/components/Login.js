@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import SetCookie from "../utils/SetCookie";
 // import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const Login = () => {
@@ -6,10 +8,24 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   // TODO: Handle login submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    debugger;
+    if (username && password) {
+      const response = await axios.get("http://localhost:8989/login", {
+        params: {
+          username: username,
+          password: password,
+        },
+      });
+      if (response.status == 200) {
+        SetCookie("userInfo", response.data.token);
+      } else {
+        // error message
+        console.log("username or pass invalid");
+      }
+    }
   };
-
   const usernameHandler = (e) => {
     setUsername(e.target.value);
   };
