@@ -1,10 +1,23 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:8989";
 
-export const Request = {
-  get(url, params = {}) {},
+export const sendApiPostRequest = (url, params, callback) => {
+  axios.post(url, null, { params }).then((response) => {
+    if (callback) {
+      callback(response);
+    }
+  });
+};
 
-  async post(url, data = {}) {
-    return await axios.post(BASE_URL + url, data);
-  },
+export const sendApiGetRequest = (url, params, callback) => {
+  console.log(params);
+  axios
+    .get(url, { params })
+    .then((response) => {
+      if (callback) {
+        callback(response);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };

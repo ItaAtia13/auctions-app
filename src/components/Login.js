@@ -10,7 +10,6 @@ const Login = () => {
   // TODO: Handle login submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger;
     if (username && password) {
       const response = await axios.get("http://localhost:8989/login", {
         params: {
@@ -20,6 +19,7 @@ const Login = () => {
       });
       if (response.status == 200) {
         SetCookie("userInfo", response.data.token);
+        console.log("connection has been succeccfuly");
       } else {
         // error message
         console.log("username or pass invalid");

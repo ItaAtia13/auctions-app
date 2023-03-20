@@ -45,10 +45,10 @@ const App = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path="Login" element={<Login />}></Route>
-        <Route path="Sign-Up Now" element={<Signup />}></Route>
+        <Route path="login" element={<Login />}></Route>
+        <Route path="sign-up" element={<Signup />}></Route>
         <Route
-          path="Item-Detail"
+          path="item-detail"
           element={<ItemDetail item={item} userBids={userBids} />}
         ></Route>
       </Routes>

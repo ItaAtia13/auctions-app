@@ -1,28 +1,33 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import GetCookie from "../utils/GetCookie";
+import { sendApiPostRequest } from "../utils/Request";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username && password) {
-      const response = await axios.post("http://localhost:8989/Sign-Up", {
-        params: {
-          username: username,
-          password: password,
-        },
-      });
-      if (response.status == 200) {
-        // GetCookie("userInfo");
-      } else {
-        // error message
-        console.log("username or pass invalid");
+    sendApiPostRequest(
+      "http://localhost:8989/sign-up?",
+      {
+        username,
+        password,
+      },
+      (response) => {
+        if (response.data.success) {
+          console.log("ok!");
+          //navigate to Login page when sign-up finished successfuly
+          navigate("/login");
+        } else {
+          alert("wrong details!");
+        }
       }
-    }
+    );
   };
 
   const usernameHandler = (e) => {
@@ -36,6 +41,12 @@ const Signup = () => {
   const ConfirmPasswordHandler = (event) => {
     setConfirmPassword(event.target.value);
   };
+
+  // let navigate = useNavigate();
+  // const routeChange = () => {
+  //   let path = `http://localhost:3000/login`;
+  //   navigate(path);
+  // };
 
   return (
     <div>
